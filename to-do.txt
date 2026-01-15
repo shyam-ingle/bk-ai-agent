@@ -1,0 +1,4 @@
+TODO:
+- Add boolean chunks (yes/no)
+- Add query caching
+- Add logs table (question, top_distance)
