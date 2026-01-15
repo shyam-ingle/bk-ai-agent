@@ -1,3 +1,16 @@
+const REQUIRED_ENVS = [
+    "OPENAI_API_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_SERVICE_ROLE_KEY"
+];
+
+for (const key of REQUIRED_ENVS) {
+    if (!process.env[key]) {
+        throw new Error(`Missing required env var: ${key}`);
+    }
+}
+
+
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
