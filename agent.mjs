@@ -28,11 +28,28 @@ function normalize(vec) {
     return vec.map((x) => x / norm);
 }
 
-function fallback() {
-    return (
-        "I don't have that specific detail right here, but I want to make sure you get the right answer. " +
-        "Please reach out to our front desk directly, and they'll be happy to assist you!"
-    );
+async function getFallbackAnswer(question) {
+    const chatResponse = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        temperature: 0.3,
+        messages: [
+            {
+                role: 'system',
+                content:
+                    'You are a warm, knowledgeable concierge for Bhils Kabeela Resort. ' +
+                    'The user asked a question that is NOT in your knowledge base. ' +
+                    'Politely and naturally apologize that you don\'t have specific details on that PARTICULAR topic right now. ' +
+                    'Suggest they contact the front desk for more information. ' +
+                    'Do not make up any facts.'
+            },
+            {
+                role: 'user',
+                content: question,
+            },
+        ],
+    });
+
+    return chatResponse.choices[0].message.content;
 }
 
 // =====================
@@ -62,12 +79,12 @@ async function askAgent(question) {
     console.log(matches);
 
     if (error || !matches || matches.length === 0) {
-        return fallback();
+        return await getFallbackAnswer(question);
     }
 
     // 3️⃣ Confidence gate
     if (matches[0].distance > DISTANCE_THRESHOLD) {
-        return fallback();
+        return await getFallbackAnswer(question);
     }
 
     // 4️⃣ Build context
