@@ -30,8 +30,8 @@ function normalize(vec) {
 
 function fallback() {
     return (
-        'I’m not seeing clear information about this right now. ' +
-        'Let me check with the team and get back to you.'
+        "I don't have that specific detail right here, but I want to make sure you get the right answer. " +
+        "Please reach out to our front desk directly, and they'll be happy to assist you!"
     );
 }
 
@@ -78,14 +78,16 @@ async function askAgent(question) {
     // 5️⃣ ChatGPT grounded answer
     const chatResponse = await openai.chat.completions.create({
         model: 'gpt-4o-mini',
-        temperature: 0.2,
+        temperature: 0.3,
         messages: [
             {
                 role: 'system',
                 content:
-                    'You are a helpful AI assistant for Bhils Kabeela resort. ' +
-                    'Answer ONLY using the provided context. ' +
-                    'If the answer is not present, say you are unsure.',
+                    'You are a warm, knowledgeable, and welcoming concierge for Bhils Kabeela Resort. ' +
+                    'Your goal is to assist potential and current guests with a friendly, inviting tone. ' +
+                    'Answer their questions naturally and conversationally using ONLY the provided context. ' +
+                    'If the context contains the answer, rephrase it faithfully but comfortably—avoid stiff or robotic copying. ' +
+                    'If the answer is NOT in the context, politely say you don\'t have that info on hand and suggest contacting the resort directly.',
             },
             {
                 role: 'user',
