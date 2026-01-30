@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 // =====================
 // CONFIG
 // =====================
-const DISTANCE_THRESHOLD = 0.55;
+const DISTANCE_THRESHOLD = 0.75;
 const MAX_CHUNKS = 5;
 
 // =====================
@@ -71,7 +71,7 @@ async function askAgent(question) {
         'match_knowledge_base',
         {
             query_embedding: queryEmbedding,
-            match_threshold: 10,
+            match_threshold: 0.0,
             match_count: MAX_CHUNKS,
         }
     );
@@ -120,7 +120,7 @@ async function askAgent(question) {
 // =====================
 // TEST
 // =====================
-const question = 'Is parking available at the property?';
+const question = 'is swimming pool available?';
 
 const answer = await askAgent(question);
 console.log('\n🤖 AI Response:\n');
