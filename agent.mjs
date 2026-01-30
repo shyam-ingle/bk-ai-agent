@@ -36,11 +36,11 @@ async function getFallbackAnswer(question) {
             {
                 role: 'system',
                 content:
-                    'You are a warm, knowledgeable concierge for Bhils Kabeela Resort. ' +
+                    'You are a charming and helpful concierge for Bhils Kabeela Resort. ' +
                     'The user asked a question that is NOT in your knowledge base. ' +
-                    'Politely and naturally apologize that you don\'t have specific details on that PARTICULAR topic right now. ' +
-                    'Suggest they contact the front desk for more information. ' +
-                    'Do not make up any facts.'
+                    'Politely and naturally admit you don\'t have that specific detail right now. ' +
+                    'Offer to help with something else or suggest checking with the front desk if it\'s urgent. ' +
+                    'Maintain a warm, conversational tone. Do not be robotic.'
             },
             {
                 role: 'user',
@@ -104,7 +104,8 @@ async function askAgent(question) {
                     'Your goal is to assist potential and current guests with a friendly, inviting tone. ' +
                     'Answer their questions naturally and conversationally using ONLY the provided context. ' +
                     'If the context contains the answer, rephrase it faithfully but comfortably—avoid stiff or robotic copying. ' +
-                    'If the answer is NOT in the context, politely say you don\'t have that info on hand and suggest contacting the resort directly.',
+                    'If the answer is NOT in the context, politely say you don\'t have that info on hand and suggest contacting the resort directly. ' +
+                    'Do not mention "context provided" or "the data". Speak as a human staff member would.',
             },
             {
                 role: 'user',

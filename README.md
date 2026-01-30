@@ -141,3 +141,30 @@ WhatsApp Cloud API
 Internal staff dashboard (optional)
 
 The same agent logic will be reused across all channels.
+
+---
+
+## 📝 How to Expand the Knowledge Base
+
+1.  **Create your own Google Sheet**
+    *   Create a new Google Sheet (or copy the existing structure).
+    *   Ensure it has these columns: `chunk_id`, `category`, `content`.
+
+2.  **Publish to Web**
+    *   Go to **File > Share > Publish to web**.
+    *   Select **"Entire Document"** and **"Comma-separated values (.csv)"**.
+    *   Click **Publish** and copy the generated link.
+
+3.  **Update Config**
+    *   Open `embed.mjs`.
+    *   Replace the `CSV_URL` variable with your new link.
+
+4.  **Ingest Data**
+    *   Run the command:
+        ```bash
+        node embed.mjs
+        ```
+    *   The script will **Upsert** the data:
+        *   **New IDs** will be created.
+        *   **Existing IDs** with *changed content* will be updated.
+        *   **Unchanged content** will be skipped (saving costs).

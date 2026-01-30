@@ -55,16 +55,22 @@ for (const row of rows) {
 
     if (!chunk_id || !content) continue;
 
-    // Skip if already exists
+    // Check if already exists
     const { data: existing } = await supabase
         .from('knowledge_base')
-        .select('id')
+        .select('id, content')
         .eq('chunk_id', chunk_id)
         .maybeSingle();
 
     if (existing) {
-        console.log(`⏭️  Skipping ${chunk_id}`);
-        continue;
+        if (existing.content === content) {
+            console.log(`P  Skipping ${chunk_id} (Content unchanged)`);
+            continue;
+        } else {
+            console.log(`🔄 Updating ${chunk_id} (Content changed)`);
+        }
+    } else {
+        console.log(`✨ Creating ${chunk_id}`);
     }
 
     // Create embedding
@@ -76,19 +82,19 @@ for (const row of rows) {
     const raw = embeddingResponse.data[0].embedding;
     const norm = normalize(raw);
 
-    // Insert
-    const { error } = await supabase.from('knowledge_base').insert({
+    // Upsert (Insert or Update)
+    const { error } = await supabase.from('knowledge_base').upsert({
         chunk_id,
         category,
         content,
         embedding: raw,
         embedding_norm: norm,
-    });
+    }, { onConflict: 'chunk_id' });
 
     if (error) {
         console.error(`❌ Failed for ${chunk_id}`, error.message);
     } else {
-        console.log(`✅ Stored ${chunk_id}`);
+        console.log(`✅ Saved ${chunk_id}`);
     }
 }
 
