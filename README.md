@@ -168,3 +168,6 @@ The same agent logic will be reused across all channels.
         *   **New IDs** will be created.
         *   **Existing IDs** with *changed content* will be updated.
         *   **Unchanged content** will be skipped (saving costs).
+
+
+# agent.mjs contains only RAG whereas agent.ms contain intent classifer + RAG. Server.mjs has api end points, ready for production
